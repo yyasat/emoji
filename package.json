@@ -1,0 +1,12 @@
+{
+  "name": "idic-lab",
+  "version": "1.0.0",
+  "description": "IDIC实验室",
+  "main": "main.js",
+  "scripts": {
+    "dev": "uni",
+    "build": "uni build"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
