@@ -1,0 +1,1106 @@
+/* 修复颜色问题的CSS */
+
+body {
+    /* 【【【终极修复】】】 */
+    /* 解释：我们现在命令背景可以同时显示“图片”和“渐变色”。
+       图片在上面，渐变在下面。如果图片遥控器(--global-background-image)是空的(none)，
+       浏览器就会自动只显示下面的渐变色。我们还彻底删掉了那条捣乱的 !important 圣旨！*/
+    background-image: var(--global-background-image), 
+                      linear-gradient(135deg, 
+                          var(--global-background-start-color) 0%, 
+                          var(--global-background-end-color) 100%
+                      );
+}
+/* 【【【全新修复：登录页文字颜色】】】 */
+.login-footer-branding .branding-title,
+.login-footer-branding .branding-subtitle,
+.login-settings-link {
+    color: var(--global-theme-color-dark) !important; /* <--- 已修复 */
+    opacity: 0.7;
+}
+.login-settings-link:hover {
+    color: var(--global-theme-color) !important; /* <--- 已修复 */
+}
+/* 星空背景装饰 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+
+/* 修复header按钮颜色和样式 */
+.header-button-text {
+    color: var(--header-text-color) !important; /* 【核心修复】跟随变量 */
+    font-weight: 600 !important;
+    background: none !important;
+    border: none !important;
+    padding: 8px 12px !important;
+    font-size: 16px !important;
+}
+
+/* 【全新】为顶部操作图标按钮设计现代样式 */
+.header-action-buttons .header-button {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important; /* 让按钮变成完美的圆形 */
+    
+    /* ▼▼▼ 【【【核心修复：擦掉这里的 !important 圣旨！！！】】】 ▼▼▼ */
+    display: flex; 
+    
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.15) !important; /* 半透明背景，增加层次感 */
+    transition: all 0.2s ease !important; /* 【优化】让过渡更平滑 */
+    padding: 0 !important; /* 清除默认的内边距 */
+    margin: 0 4px !important; /* 增加按钮之间的左右间距 */
+}
+
+/* 鼠标悬停时的效果 (电脑端) */
+.header-action-buttons .header-button:hover {
+    background: rgba(255, 255, 255, 0.3) !important; /* 悬停时背景变亮 */
+}
+
+/* 【【【核心新增：手机触摸按下时的效果】】】 */
+.header-action-buttons .header-button:active {
+    background: rgba(0, 0, 0, 0.1) !important; /* 按下时，背景叠加一层淡淡的黑色，效果更明显 */
+    transform: scale(0.95) !important; /* 同时让按钮有微微被按下去的感觉 */
+}
+
+
+/* 图标本身的样式 */
+.header-action-buttons .header-button svg {
+    width: 20px !important;
+    height: 20px !important;
+    /* 【核心修复】跟随版头文字颜色！ */
+    stroke: var(--header-text-color) !important; 
+    stroke-width: 2px !important;
+}
+
+/* 修复header - 恢复自定义功能版 (已解锁背景) */
+.header, .main-header {
+    /* 1. 依然清除阴影和边框 (防止黑条回归) */
+    box-shadow: none !important;
+    border-bottom: none !important;
+    border: none !important;
+    outline: none !important;
+
+    /* 2. 【核心修复】解锁背景控制权！ */
+    /* 我们删除了 background: ... !important，让 JS 动态生成的样式能够生效 */
+    /* 这样上传图片、修改透明度才能起作用 */
+    
+    /* 3. 确保模糊度变量生效 */
+    backdrop-filter: blur(var(--header-blur)) !important;
+    -webkit-backdrop-filter: blur(var(--header-blur)) !important;
+    
+    /* 4. 确保文字颜色变量生效 */
+    color: var(--header-text-color) !important;
+    
+    /* 5. 确保层级 */
+    z-index: 100;
+}
+
+/* (解释：在这里为所有需要变色的文字，都换上“遥控接收器”) */
+.user-row .message {
+    color: var(--header-text-color) !important;
+}
+.nav-button.active {
+    color: var(--global-theme-color) !important; /* 导航栏选中颜色保持为主题色 */
+}
+#save-settings-button, .modal-button.primary {
+    color: var(--header-text-color) !important;
+}
+.header-button, .header-button-text, .user-details span {
+    color: var(--header-text-color) !important;
+}
+
+/* 【【【修复】】】为列表页版头恢复自适应高度 */
+.main-header {
+    height: auto !important;
+}
+/* 修复搜索栏样式 - 【水晶胶囊风格】 */
+.search-bar {
+    /* 背景：极淡的白色，几乎全透明 */
+    background: rgba(255, 255, 255, 0.25) !important; 
+    
+    /* 模糊：强力模糊，让背景图在后面晕开 */
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    
+    /* 边框：极细的亮白色，模拟玻璃边缘的反光 */
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    
+    /* 阴影：几乎看不见的柔光阴影 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    
+    /* 形状：完全圆润的胶囊 */
+    border-radius: 50px !important; 
+    
+    /* 布局：居中并留出边距 */
+    margin: 10px 20px !important; 
+    height: 44px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 顺便修复输入框里的文字，让它居中且精致 */
+.search-bar input {
+    text-align: center !important; /* 文字居中 */
+    background: transparent !important; /* 输入框背景透明 */
+    color: #fff !important; /* 文字白色 */
+    font-weight: 500 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important; /* 微微的文字投影，防背景太亮看不清 */
+}
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important; /* 占位符也是半透明白 */
+}
+.search-icon {
+    stroke: rgba(255, 255, 255, 0.9) !important; /* 搜索图标改为亮白色 */
+}
+/* 修复搜索栏容器样式 - 【彻底隐形】 */
+.search-bar-container {
+    background: transparent !important; /* 确保完全透明 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important; /* 确保没有任何边框 */
+    box-shadow: none !important; /* 确保没有任何阴影 */
+    padding-bottom: 0 !important; /* 移除多余间距 */
+    margin-bottom: 5px !important; /* 只留一点点间距给下方的列表 */
+}
+/* (解释：在这里，我们把搜索框下面那个隐藏的筛选器面板的边框也一起干掉！) */
+.search-filters-panel {
+    border-bottom: none !important;
+}
+
+/* 修复用户信息栏文字颜色 */
+.user-details span {
+    color: inherit !important;
+}
+
+/* 修复状态点样式 */
+.status-dot {
+    background: linear-gradient(135deg, #4CAF50, #45a049) !important;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5) !important;
+}
+
+/* 修复聊天输入区域 - 【【【终极改造V2：图片与颜色分离遥控】】】 */
+.chat-input-area {
+    /* 解释：我们把背景拆分成了两个独立的指令，互不干扰 */
+    background-image: var(--input-area-background-image) !important; /* 指令1：只负责显示图片 */
+    background-color: rgba(var(--global-theme-color-rgb), var(--input-area-opacity)) !important; /* 指令2：只负责显示颜色 */
+    
+    /* 【核心修复】锁定背景，防止展开面板时图片跳动 */
+    /* 1. 顶部对齐：保证图片永远从最上面开始画，面板往下展开时不会拉扯图片 */
+     background-position: bottom center !important;
+    
+    /* 2. 宽度优先：让图片宽度永远撑满屏幕，高度随缘。这样高度变化时图片就不会缩放了 */
+    background-size: 100% auto !important; 
+    
+    background-repeat: no-repeat !important;
+    
+    /* 模糊效果保持不变 */
+    backdrop-filter: blur(var(--input-area-blur)) !important;
+    -webkit-backdrop-filter: blur(var(--input-area-blur)) !important;
+    
+    border-top: none !important; 
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.05) !important;
+    /* 【新增】平滑过渡：万一有微小变化，让它丝滑一点 */
+    transition: background-size 0.3s ease, height 0.3s ease !important;
+
+}
+/* 修复聊天输入框 - 【【【终极改造 V5：权力下放，输入框本身负责背景和皮肤】】】 */
+#chat-input {
+    /* 核心改造：现在输入框本身拥有背景图和背景色的控制权！ */
+    background: var(--input-box-bg-image) center/cover no-repeat, rgba(var(--input-box-bg-color-rgb), var(--input-box-bg-opacity)) !important; 
+    
+    /* 核心改造：输入框自身的模糊度 */
+    backdrop-filter: blur(var(--input-box-bg-blur)) !important;
+    -webkit-backdrop-filter: blur(var(--input-box-bg-blur)) !important;
+    
+    /* 核心改造：边框和阴影也由输入框自己控制 */
+    border: 1px solid var(--input-box-border-color) !important;
+    box-shadow: var(--input-box-shadow) !important;
+}
+
+/* 这是“换肤模式”下的专属样式 */
+body.input-box-skinned #chat-input {
+    /* 步骤1: 在换肤模式下，背景图和背景色都由 border-image 全权接管，所以这些都要清空 */
+    background-image: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important; /* 阴影也去除 */
+    
+    /* 步骤2: 穿上新皮肤！ */
+    border-image-source: var(--input-box-bg-image) !important;
+    border-image-slice: 30 fill !important; /* 裁剪方式保持不变 */
+    
+    /* 步骤3: 调整边框宽度和圆角，匹配图片皮肤 */
+    border: 20px solid transparent !important;
+    border-radius: 20px !important; 
+}
+
+
+/* 置顶聊天 - 【高透水晶风格】(你的核心需求) */
+.chat-list-item.pinned {
+    /* 背景：极度透明 (0.25)，让背景图透出来 */
+    background: rgba(255, 255, 255, 0.25) !important;
+    
+    /* 模糊：加倍模糊，产生一种“景深”感 */
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    
+    /* 边框：稍微亮一点的白边，强调它是特殊的 */
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    
+    /* 阴影：给一点点内发光的感觉 */
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1) !important;
+    
+    /* 强制文字颜色加深一点点，防止因为背景太透而看不清 */
+    color: #000 !important;
+}
+/* 配合置顶，让置顶卡片里的名字稍微加粗一点点，提升质感 */
+.chat-list-item.pinned .chat-list-item-name {
+    font-weight: 700 !important;
+    opacity: 0.9 !important;
+}
+/* 额外：给置顶卡片加一个小图标或标记（可选，这里先只改背景） */
+
+/* 修复消息气泡 - 用户消息使用深蓝色 */
+.user-row .message:not(.message-red-packet):not(.message-relationship-card):not(.message-breakup-card):not(.message-accounting-card):not(.message-music-share-card) {
+    background: var(--gradient-primary) !important;
+    color: var(--user-bubble-text-color) !important;
+    box-shadow: var(--shadow-primary) !important;
+}
+
+/* 修复消息气泡 - AI消息改回白色 */
+/* 【核心修正】我们加上了 :not(.message-html-widget)，告诉它：“除了小剧场之外”，其他气泡才变白 */
+.assistant-row .message:not(.message-html-widget) {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    color: #333 !important;
+}
+/* 修复底部导航栏 - 【严格还原原版 P2 样式】 */
+#app-nav {
+    /* 1. 背景：还原为不透明白色 */
+    background: rgba(255, 255, 255, 0.98) !important;
+    
+    /* 2. 模糊：保持 */
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    
+    /* 3. 边框：还原顶部细灰线 */
+    border-top: 1px solid #e0e0e0 !important;
+    
+    /* 4. 阴影：还原淡阴影 */
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05) !important;
+    
+    /* 5. 高度与布局：【核心修正】严格使用原版 50px 高度，去掉多余的内边距 */
+    height: 50px !important;
+    padding-top: 0 !important; /* 去掉顶部的留白 */
+    padding-bottom: env(safe-area-inset-bottom) !important; /* 只保留苹果手机底部的黑条区域 */
+    
+    display: flex !important;
+    align-items: center !important; /* 强制内容垂直居中 */
+}
+/* 【【【终极修复：强制隐藏导航栏】】】 */
+/* 解释：这条规则专门针对“带有hidden标签的导航栏”。
+   ID选择器(#) + 类选择器(.) + !important 构成了CSS界的最高权限。
+   它命令：只要导航栏被贴上了 "hidden" 标签，就必须立刻彻底消失！*/
+#app-nav.hidden {
+    display: none !important;
+}
+/* 修复导航按钮 - 【严格还原原版 P2 参数】 */
+.nav-button {
+    /* 1. 颜色：还原为深灰色 */
+    color: #8e8e93 !important;
+    text-shadow: none !important;
+    
+    /* 2. 字体：【核心修正】严格还原为原版 14px */
+    font-size: 14px !important;
+    font-weight: 500 !important; /* 保持适中粗细 */
+    
+    transition: all 0.2s ease !important;
+    
+    /* 3. 布局：还原原版间距 */
+    margin: 0 4px !important;
+    padding: 0 !important; /* 既然高度固定了，这里去掉内边距让flex自动居中 */
+    border-radius: 8px !important;
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    flex: 1 !important; /* 确保按钮平分宽度 */
+}
+
+/* 选中状态 - 【只变色，无背景】 */
+.nav-button.active {
+    color: var(--global-theme-color) !important; 
+    font-weight: 600 !important;
+    text-shadow: none !important;
+    background: transparent !important; /* 确保背景透明 */
+    box-shadow: none !important;
+    transform: none !important;
+}
+/* 鼠标悬停状态 */
+.nav-button:hover {
+    color: var(--global-theme-color) !important;
+}
+.nav-button.active:hover {
+    color: var(--global-theme-color) !important;
+}
+/* 修复设置组样式 - 改回白色 */
+.settings-group {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 修复设置页面背景 - 使用纯白色 */
+#settings-form, #ai-editor-form, .contact-settings-container {
+    /* 【【【核心修复】】】 */
+    /* 解释：我们把那个泛蓝的浅灰色，直接换成了纯白色(255, 255, 255)，
+       同时保留了0.95的透明度，让毛玻璃效果依然存在。*/
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* 修复设置页面输入框 - 增强边界和对比度 */
+#settings-form input[type="text"],
+#settings-form input[type="password"],
+#settings-form input[type="number"],
+#settings-form select,
+#ai-editor-form input[type="text"],
+#ai-editor-form textarea,
+#ai-editor-form select {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    /* 【【【核心修复】】】 */
+    /* 解释：我们把这里与主题色挂钩的边框，换成了一个固定的、非常浅的中性灰色。
+       同时把边框从2px改回更精致的1px。*/
+    border: 1px solid #eee !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05) !important; 
+    transition: all 0.3s ease !important;
+    color: #333 !important;
+}
+
+#settings-form input[type="text"]:focus, 
+#settings-form select:focus,
+#ai-editor-form input[type="text"]:focus,
+#ai-editor-form textarea:focus,
+#ai-editor-form select:focus {
+    border-color: var(--global-theme-color) !important;
+    box-shadow: 0 4px 16px rgba(var(--global-theme-color-rgb), 0.4) !important;
+    transform: translateY(-2px) !important;
+    background: rgba(255, 255, 255, 1) !important;
+}
+
+/* 修复模态框样式 - 改回白色 */
+.modal-content {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 修复筛选器面板 - 改回白色 */
+.search-filters-panel {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 修复筛选器按钮 - 确保重置和应用按钮可见 */
+.filters-actions button {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #666 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+#apply-filters-btn {
+    background: var(--gradient-primary) !important;
+    color: white !important;
+    border-color: var(--global-theme-color) !important;
+    box-shadow: var(--shadow-primary) !important;
+}
+
+/* 修复侧边栏 - 改回白色 */
+#side-menu {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 修复扩展功能面板 - 改回白色 */
+#extended-functions-panel {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 修复功能图标 - 改回白色 */
+.function-icon {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 修复全局提示 - 改回白色 */
+.global-toast-item {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #333 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 修复关系卡片 - 改回白色 */
+.message-relationship-card, .message-breakup-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 修复文本编辑器 - 改回白色 */
+#text-editor-textarea {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 修复更多功能抽屉 - 改回白色 */
+.more-functions-drawer {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+}
+
+.more-functions-content {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 修复侧边栏覆盖层 - 保持星空效果 */
+.sidebar-overlay {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+}
+
+/* ================================ */
+/* 全新弹窗设计 - 极简现代风格 (V2.0) */
+/* ================================ */
+
+/* 弹窗容器 */
+.modal-content {
+    max-width: 340px !important; /* 稍微变窄一点，更像手机弹窗 */
+    width: 90% !important;
+    border-radius: 16px !important; /* 圆角稍微收一点，更精致 */
+    overflow: hidden !important;
+    background: #ffffff !important; /* 纯白背景，干净利落 */
+    /* 移除复杂的毛玻璃，提升清晰度，也防止背景干扰 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important; /* 移除边框 */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important; /* 加深阴影，增加悬浮感 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 弹窗头部 (极简版) */
+.modal-header {
+    padding: 15px 20px !important; /* 大幅压缩内边距 */
+    background: #fff !important; /* 纯白背景 */
+    border-bottom: 1px solid #f5f5f5 !important; /* 极淡的分割线 */
+    border-radius: 16px 16px 0 0 !important;
+    position: relative !important;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 标题居中 */
+    min-height: 50px; /* 限制最小高度 */
+}
+
+.modal-header h3 {
+    color: #333 !important;
+    font-size: 17px !important; /* 稍微减小字号 */
+    font-weight: 600 !important;
+    margin: 0 !important;
+    text-align: center !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* 关闭按钮 (极简灰色叉号) */
+.close-button {
+    position: absolute !important;
+    top: 50% !important;
+    right: 15px !important;
+    transform: translateY(-50%) !important; /* 垂直居中 */
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background: transparent !important; /* 透明背景 */
+    border: none !important;
+    color: #999 !important; /* 浅灰色图标 */
+    font-size: 20px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    box-shadow: none !important; /* 移除阴影 */
+}
+
+.close-button:hover {
+    background: #f5f5f5 !important; /* 悬停时给一个极淡的灰色背景 */
+    color: #333 !important; /* 图标变深 */
+    transform: translateY(-50%) scale(1.1) !important; /* 保持居中并放大 */
+}
+
+/* 弹窗内容区域 */
+.modal-body {
+    padding: 20px !important;
+    background: #fff !important;
+    overflow-y: auto; /* 内容过多时滚动 */
+    flex-grow: 1;
+}
+
+.modal-body .form-group {
+    margin-bottom: 15px !important;
+}
+
+.modal-body .form-group:last-child {
+    margin-bottom: 0 !important;
+}
+
+.modal-body label {
+    color: #666 !important;
+    font-weight: 500 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+    font-size: 13px !important;
+}
+
+.modal-body input[type="text"],
+.modal-body textarea {
+    width: 100% !important;
+    padding: 10px 12px !important; /* 减小内边距 */
+    border: 1px solid #e0e0e0 !important; /* 更细的边框 */
+    border-radius: 8px !important; /* 圆角 */
+    background: #f9f9f9 !important; /* 极淡的灰色背景 */
+    box-shadow: none !important; /* 移除内部阴影 */
+    transition: all 0.2s ease !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    resize: none !important;
+    outline: none !important;
+}
+
+.modal-body input[type="text"]:focus,
+.modal-body textarea:focus {
+    border-color: var(--global-theme-color) !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 2px rgba(var(--global-theme-color-rgb), 0.1) !important; /* 柔和的聚焦光环 */
+    transform: none !important; /* 移除位移 */
+}
+
+/* 弹窗底部按钮区域 */
+.modal-footer,
+.modal-footer-split {
+    padding: 15px 20px 20px 20px !important; /* 调整内边距 */
+    background: #fff !important;
+    border-top: none !important;
+    border-radius: 0 0 16px 16px !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 10px !important;
+}
+
+.modal-footer button,
+.modal-button {
+    flex: 1 !important; /* 按钮平分宽度 */
+    min-width: auto !important;
+    padding: 10px 0 !important; /* 减小高度 */
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    outline: none !important;
+    letter-spacing: 0.5px !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* 取消按钮 */
+.modal-button.secondary,
+.modal-footer button:first-child {
+    background: #f5f5f5 !important; /* 浅灰背景 */
+    color: #666 !important;
+    border: none !important; /* 移除边框 */
+    box-shadow: none !important;
+}
+
+/* 红包详情弹窗关闭键专属修正：覆盖全局 close-button 居中规则 */
+#red-packet-modal #close-rp-modal-button {
+    top: 10px !important;
+    right: 10px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    color: #fff !important;
+    background: none !important;
+    border: none !important;
+    z-index: 3 !important;
+}
+
+.modal-button.secondary:hover,
+.modal-footer button:first-child:hover {
+    background: #eeeeee !important;
+    color: #333 !important;
+    transform: none !important; /* 移除位移 */
+}
+
+/* 确定按钮 */
+.modal-button.primary,
+.modal-footer button:last-child {
+    background: var(--global-theme-color) !important; /* 使用纯色，更扁平 */
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(var(--global-theme-color-rgb), 0.3) !important;
+}
+
+.modal-button.primary:hover,
+.modal-footer button:last-child:hover {
+    opacity: 0.9 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 15px rgba(var(--global-theme-color-rgb), 0.4) !important;
+}
+
+/* 按钮按下效果 */
+.modal-button:active,
+.modal-footer button:active {
+    transform: translateY(0) !important;
+    opacity: 0.8 !important;
+}
+/*
+============================================================
+ V-LOGIN-SCREEN: 登录与加载界面专属样式
+============================================================
+*/
+
+/* 1. 登录页容器 */
+#login-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 【【【修复】】】我们把写死的背景删掉了！现在它会透明地显示出body的全局渐变背景 */
+}
+
+.login-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.login-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 25px rgba(80, 151, 205, 0.3);
+    margin-bottom: 20px;
+}
+
+.login-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin: 0 0 10px;
+}
+
+.login-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.login-button {
+    width: 100%;
+    max-width: 280px;
+    padding: 15px;
+    border: none;
+    background: var(--gradient-primary) !important; /* 确保使用变量 */
+    color: white;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: var(--shadow-primary) !important; /* 确保使用变量 */
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary-hover) !important; /* 确保使用变量 */
+}
+
+.login-settings-link {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.login-settings-link:hover {
+    color: var(--qq-blue);
+}
+
+/* 2. 加载动画遮罩层 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--global-theme-color); /* <--- 已修复 */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    margin-top: 20px;
+    font-size: 16px;
+    color: var(--text-dark);
+    font-weight: bold;
+}
+/*
+============================================================
+ V-LOGIN-FIX: 登录界面字体与颜色终极修复补丁
+============================================================
+*/
+
+/* 1. 强制“登录”按钮和“前往设置”链接，都继承全局自定义字体 */
+.login-button, .login-settings-link {
+    font-family: inherit !important;
+}
+
+/* 2. 强制它们的文字颜色，都听从“版头字体颜色”遥控器的指挥 */
+.login-button, .login-settings-link {
+    color: var(--header-text-color) !important;
+}
+
+/* 3. 为“前往设置”链接增加一点透明度，以区分主次，并确保可见性 */
+.login-settings-link {
+    opacity: 0.7;
+}
+.login-settings-link:hover {
+    opacity: 1;
+}
+/* --- 聊天设置弹窗专属样式 --- */
+
+/* 颜色选择器美化 */
+.color-picker-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+.color-picker-item input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* 圆形色块 */
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.color-picker-item input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.color-picker-item input[type="color"]::-webkit-color-swatch {
+    border: none;
+}
+.color-picker-item input[type="color"]:hover {
+    transform: scale(1.1);
+}
+.color-picker-item span {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 图片上传区域美化 */
+.image-upload-area .upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* 让点击穿透到父容器 */
+}
+/* 如果有预览图，隐藏占位符 */
+.image-upload-area img[src=""] + .upload-placeholder {
+    display: flex;
+}
+.image-upload-area img:not([src=""]) + .upload-placeholder {
+    display: none;
+}
+.image-upload-area img:not([src=""]) {
+    opacity: 1;
+    background: white;
+}
+
+/* --- 聊天设置弹窗美化 --- */
+.settings-item-card {
+    transition: background-color 0.2s;
+}
+.settings-item-card:hover {
+    background-color: #f0f2f5 !important;
+}
+/* ============================================ */
+/* ▼▼▼ 【核心】紧凑模式与细节精修 V4.0 ▼▼▼ */
+/* ============================================ */
+
+/* 1. 紧凑模式间距逻辑 */
+/* 只有当开启紧凑模式，且是同一个人连发时，才强制间距为 2px */
+body.chat-compact-mode #message-container .message-row.user-row + .message-row.user-row,
+body.chat-compact-mode #message-container .message-row.assistant-row + .message-row.assistant-row {
+    /* 强制覆盖滑块设置的 margin-bottom */
+    margin-top: 0 !important; 
+    padding-top: 2px !important; /* 2px 的精细间距 */
+}
+
+/* 2. 紧凑模式头像逻辑 (关键修正) */
+/* 默认显示所有头像，只有在连发时，隐藏“后面”的头像 */
+/* 注意：沉浸模式(hideAvatar)优先级更高，会在 JS 里处理，这里只处理紧凑模式 */
+body.chat-compact-mode .message-row.user-row + .message-row.user-row .avatar,
+body.chat-compact-mode .message-row.assistant-row + .message-row.assistant-row .avatar {
+    visibility: hidden !important; /* 保持占位，但不显示 */
+    opacity: 0 !important;
+}
+
+/* 3. 语音转文字气泡专属间距 */
+/* 语音气泡本身不需要底部间距，因为它下面紧跟着文字气泡 */
+#message-container .voice-segment-item.voice-text-visible .message-voice {
+    margin-bottom: 2px !important; /* 固定为 2px */
+}
+
+#message-container .voice-segment-list {
+    gap: 6px;
+}
+
+#message-container .voice-segment-item {
+    align-items: flex-start;
+}
+
+#message-container .voice-segment-bubble {
+    width: auto;
+    max-width: 220px;
+}
+/* 转文字气泡不需要顶部间距 */
+#message-container .voice-text-content {
+    margin-top: 0 !important;
+}
+
+/* 4. 语音气泡缩放 (保持不变，这是好用的) */
+#message-container .message-voice {
+    height: 2.8em !important; 
+    min-height: 2.8em !important;
+    padding: 0 0.8em !important;
+    border-radius: 1.4em !important;
+    display: flex !important;
+    align-items: center !important;
+}
+/* 播放图标大小 */
+#message-container .play-icon-container {
+    width: 1.8em !important;
+    height: 1.8em !important;
+    min-width: 1.8em !important;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+#message-container .play-icon-container svg {
+    width: 0.8em !important;
+    height: 0.8em !important;
+}
+/* 语音秒数文字 */
+#message-container .voice-duration {
+    font-size: 0.9em !important;
+    margin-left: 0.5em !important;
+}
+/* 声波条 */
+#message-container .sound-wave {
+    height: 1.2em !important;
+    margin: 0 0.5em !important;
+}
+/* ============================================ */
+/* ▼▼▼ 【核心】气泡时间戳 & 紧凑模式精修版 ▼▼▼ */
+/* ============================================ */
+
+/* 1. 时间戳基础样式 */
+.bubble-timestamp {
+    display: none;
+    font-size: 10px !important; 
+    margin: 0 2px !important; 
+    margin-bottom: 1px !important; 
+    opacity: 0.5; 
+    flex-shrink: 0; 
+    align-self: flex-end; /* 核心：始终沉底 */
+    color: var(--header-text-color) !important; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+/* 开启模式后显示 */
+body.chat-bubble-time-mode .bubble-timestamp {
+    display: block !important;
+}
+/* 开启模式后隐藏原来的大时间戳 */
+body.chat-bubble-time-mode .timestamp-display {
+    display: none !important;
+}
+
+/* 2. 布局魔法：让时间戳和气泡（包括语音转文字）正确排列 */
+/* 无论内容多复杂，时间戳都要在最旁边 */
+
+/* 用户行：[时间戳] [头像(可选)] [内容区] */
+/* 注意：我们在 JS 里已经把时间戳放在最后了，这里用 flex-direction: row-reverse 来让它跑最左边 */
+body.chat-bubble-time-mode .user-row {
+    /* 保持 justify-content: flex-end */
+    align-items: flex-end !important; /* 底部对齐 */
+}
+/* 用户时间戳：强制放到所有元素的最左边 */
+body.chat-bubble-time-mode .user-row .bubble-timestamp {
+    order: -1 !important; 
+    margin-right: 0px !important; 
+    text-align: right;
+}
+
+/* AI行：[头像(可选)] [内容区] [时间戳] */
+body.chat-bubble-time-mode .assistant-row {
+    align-items: flex-end !important;
+}
+/* AI时间戳：强制放到所有元素的最右边 */
+body.chat-bubble-time-mode .assistant-row .bubble-timestamp {
+    order: 99 !important;
+    margin-left: 0px !important; 
+    text-align: left;
+}
+
+
+/* 3. 语音转文字气泡修复 */
+/* 确保转文字气泡是块级元素，独占一行，但被包在 message-content 里 */
+.voice-text-content {
+    margin-top: 2px !important; /* 与语音条的间距 */
+    width: fit-content; /* 宽度自适应 */
+}
+/* 用户侧靠右 */
+.user-row .voice-text-content {
+    margin-left: auto; 
+}
+
+/* 4. 紧凑模式间距逻辑 (精准打击) */
+
+/* 情况A: 同一个人连发 -> 强制紧凑 (2px) */
+body.chat-compact-mode #message-container .message-row.user-row + .message-row.user-row,
+body.chat-compact-mode #message-container .message-row.assistant-row + .message-row.assistant-row {
+    margin-top: 0 !important; 
+    padding-top: 2px !important; /* 只有连发时才紧凑 */
+}
+
+/* 情况B: 不同人说话 -> 保持滑块设置的间距 */
+/* 解释：我们之前的 CSS 没有动这一块，所以它默认就是继承 JS 里设置的 margin-bottom。
+   但是，为了保险起见，我们确保非连发的消息顶部没有额外的 padding */
+#message-container .message-row:not(.compact) {
+    padding-top: 0 !important;
+}
+/* 气泡预览区专属修正 */
+#bubble-preview-container .message {
+    /* 强制覆盖可能存在的全局干扰 */
+    margin: 0 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+/* 默认的圆角 (P2风格) */
+/* 稍后 JS 会把这段代码填入输入框，但我们也需要在 CSS 里兜底 */
+/* AI气泡：左上角尖，其他圆 */
+.preview-bubble-ai {
+    border-radius: 4px 18px 18px 18px !important; 
+}
+/* 用户气泡：右上角尖，其他圆 */
+.preview-bubble-user {
+    border-radius: 18px 4px 18px 18px !important;
+}

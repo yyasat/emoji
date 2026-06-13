@@ -1,0 +1,780 @@
+/* 聊天收藏页 UI：以后主要改这个文件就行。 */
+#message-favorites-view,
+#mf-full-content-modal,
+#mf-action-modal {
+    --mf-paper: #faf8f5;
+    --mf-ink: #333333;
+    --mf-ink-muted: #888888;
+    --mf-rule: rgba(0, 0, 0, 0.08);
+    --mf-accent: #a37c58;
+    --mf-font-display: "Noto Serif SC", "STSong", "KaiTi", serif;
+    --mf-font-body: "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--mf-ink);
+    font-family: var(--mf-font-body);
+}
+
+#message-favorites-view {
+    background: var(--mf-paper);
+    overflow-x: clip;
+}
+
+/* 2. 主体框架：手账风背景与字体 */
+#message-favorites-view .header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(163, 124, 88, 0.2) !important;
+    color: var(--mf-ink) !important;
+    padding: 16px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 8px !important;
+}
+
+#message-favorites-view .header-title {
+    font-family: var(--mf-font-display);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #4a3b32;
+    margin-left: 8px;
+}
+
+.message-favorites-body {
+    padding: 24px 16px 40px !important;
+    background: var(--mf-paper);
+    overflow-x: clip;
+}
+
+.message-favorites-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: min(100%, 800px);
+    margin: 0 auto;
+}
+
+.message-favorites-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 1px solid var(--mf-rule);
+    padding-bottom: 12px;
+}
+
+.message-favorites-groups {
+    display: contents;
+}
+
+.message-favorites-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-top: 4px;
+}
+
+.message-favorites-chip,
+.message-favorite-action-btn,
+.message-favorites-page-btn,
+.message-favorite-html-btn {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    color: var(--mf-ink-muted);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.message-favorites-chip:hover,
+.message-favorite-action-btn:hover,
+.message-favorites-page-btn:hover,
+.message-favorite-html-btn:hover {
+    color: var(--mf-ink);
+}
+
+/* Tabs: Underlined minimalist style */
+#message-favorites-category-tabs .message-favorites-chip {
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+#message-favorites-category-tabs .message-favorites-chip.is-active {
+    color: var(--mf-ink);
+    font-weight: 700;
+    border-bottom: 2px solid var(--mf-accent);
+    padding-bottom: 2px;
+}
+
+/* Groups: Pill style (like tags) */
+#message-favorites-group-tabs .message-favorites-chip {
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+}
+#message-favorites-group-tabs .message-favorites-chip:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+#message-favorites-group-tabs .message-favorites-chip.is-active {
+    background: var(--mf-accent);
+    color: #fff;
+    border: none;
+    font-weight: normal;
+}
+
+/* Custom group chip wrapper with delete button */
+.message-favorites-group-chip-wrapper {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: background 0.2s;
+}
+.message-favorites-group-chip-wrapper:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+.message-favorites-group-chip-wrapper .message-favorites-chip {
+    background: transparent !important;
+    border-radius: 0;
+    padding: 4px 6px 4px 12px;
+}
+.message-favorites-group-chip-wrapper:has(.message-favorites-chip.is-active) {
+    background: var(--mf-accent);
+}
+.message-favorites-group-chip-wrapper .message-favorites-chip.is-active {
+    background: transparent !important;
+    color: #fff;
+}
+.mf-delete-group-btn {
+    background: transparent;
+    border: none;
+    color: var(--mf-ink-muted);
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 8px 0 2px;
+    cursor: pointer;
+    border-radius: 0 12px 12px 0;
+}
+.message-favorites-group-chip-wrapper:has(.message-favorites-chip.is-active) .mf-delete-group-btn {
+    color: rgba(255,255,255,0.7);
+}
+.mf-delete-group-btn:hover {
+    color: #d15c5c !important;
+}
+
+/* Actions buttons active state */
+.message-favorite-action-btn.is-active {
+    color: var(--mf-ink);
+    font-weight: 700;
+}
+
+.message-favorites-create-group {
+    background: transparent;
+    border: 1px dashed rgba(163, 124, 88, 0.4);
+    box-shadow: none;
+    color: var(--mf-accent);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.message-favorites-create-group:hover {
+    background: rgba(163, 124, 88, 0.08);
+    border-color: var(--mf-accent);
+}
+
+.message-favorites-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 0;
+    align-items: center;
+}
+
+.message-favorites-filters input,
+.message-favorites-filters select {
+    background: #f4efea;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    box-shadow: none;
+    color: var(--mf-ink);
+    padding: 6px 14px;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.message-favorites-filters input:focus,
+.message-favorites-filters select:focus {
+    background: #fff;
+    border-color: var(--mf-accent);
+    box-shadow: 0 0 0 2px rgba(163, 124, 88, 0.1);
+}
+
+.message-favorites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 220px;
+    margin-top: 16px;
+}
+
+.message-favorite-empty {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--mf-ink-muted);
+    font-family: var(--mf-font-display);
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.message-favorite-card {
+    background: #fcfbfa;
+    border: none;
+    border-radius: 2px 8px 8px 2px;
+    padding: 24px 28px;
+    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.04), -1px 0 0 rgba(0,0,0,0.03);
+    border-left: 5px solid #d4c4b7;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    transition: box-shadow 0.2s;
+}
+
+.message-favorite-card:hover {
+    box-shadow: 3px 6px 20px rgba(0, 0, 0, 0.06), -1px 0 0 rgba(0,0,0,0.03);
+}
+
+.message-favorite-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--mf-ink-muted);
+    border-bottom: 1px dashed var(--mf-rule);
+    padding-bottom: 8px;
+}
+
+.message-favorite-meta-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.message-favorite-contact {
+    font-family: var(--mf-font-display);
+    font-size: 16px;
+    color: var(--mf-ink);
+}
+
+.message-favorite-category-badge {
+    font-weight: 700;
+    color: var(--mf-accent);
+}
+
+.message-favorite-context-badge,
+.message-favorite-tag {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--mf-ink-muted);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.message-favorite-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.message-favorite-card-body {
+    max-height: 130px;
+    overflow: hidden;
+    position: relative;
+    padding-right: 0;
+}
+
+.message-favorite-card.category-html .message-favorite-card-body {
+    max-height: none;
+}
+
+.message-favorite-card-body::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 36px;
+    background: linear-gradient(to bottom, transparent, #fcfbfa);
+    pointer-events: none;
+}
+
+.message-favorite-card.category-html .message-favorite-card-body::after {
+    display: none;
+}
+
+/* Full Content Modal */
+#mf-full-content-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+#mf-full-content-modal.is-open {
+    display: flex;
+}
+.mf-full-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(250, 248, 245, 0.85);
+    backdrop-filter: blur(8px);
+}
+.mf-full-modal-container {
+    position: relative;
+    width: min(100%, 720px);
+    max-height: 85vh;
+    background: #fcfbfa;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    border-left: 6px solid #d4c4b7;
+}
+
+#message-favorites-view .back-button {
+    color: var(--mf-accent) !important;
+    background: transparent !important;
+    border: none !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+}
+
+#message-favorites-view .back-button:hover {
+    transform: scale(1.1) !important;
+}
+
+/* Action Modal */
+#mf-action-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+#mf-action-modal.is-open {
+    display: flex;
+}
+.mf-action-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(250, 248, 245, 0.85);
+    backdrop-filter: blur(8px);
+}
+.mf-action-modal-container {
+    position: relative;
+    width: 320px;
+    background: #fcfbfa;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    overflow: hidden;
+}
+.mf-action-modal-header {
+    padding: 20px 24px 12px;
+}
+.mf-action-modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--mf-ink);
+}
+.mf-action-modal-body {
+    padding: 0 24px 20px;
+}
+.mf-action-modal-text {
+    font-size: 14px;
+    color: #665c54;
+    margin-bottom: 12px;
+}
+.mf-action-modal-input {
+    width: 100%;
+    background: #f4efea;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--mf-ink);
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+.mf-action-modal-input:focus {
+    background: #fff;
+    border-color: rgba(163, 124, 88, 0.5);
+    box-shadow: 0 2px 8px rgba(163, 124, 88, 0.1);
+}
+.mf-action-modal-footer {
+    display: flex;
+    border-top: 1px solid rgba(163, 124, 88, 0.1);
+}
+.mf-action-modal-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px 0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.mf-cancel-btn {
+    color: #8c8279;
+    border-right: 1px solid rgba(163, 124, 88, 0.1);
+}
+.mf-confirm-btn {
+    color: #b86245;
+    font-weight: 600;
+}
+.mf-action-modal-btn:hover {
+    background: rgba(163, 124, 88, 0.05);
+}
+
+.mf-full-modal-header {
+    padding: 24px 48px 16px 32px;
+    border-bottom: 1px dashed rgba(163, 124, 88, 0.3);
+}
+.mf-full-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    color: #665c54;
+    opacity: 0.3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 10;
+    padding: 0;
+}
+.mf-full-modal-close:hover {
+    opacity: 0.8;
+}
+.mf-full-modal-body {
+    padding: 24px 32px;
+    overflow-y: auto;
+    flex: 1;
+}
+.mf-full-modal-body .message-favorite-card-body {
+    max-height: none !important;
+}
+.mf-full-modal-body .message-favorite-card-body::after {
+    display: none !important;
+}
+
+.message-favorite-card-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.message-favorite-card-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.message-favorite-snippet {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    margin-bottom: 12px;
+}
+
+.message-favorite-snippet:last-child {
+    margin-bottom: 0;
+}
+
+.message-favorite-snippet-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.message-favorite-snippet-head .mf-role {
+    font-family: var(--mf-font-display);
+    font-weight: bold;
+    color: #4a3b32;
+    font-size: 13px;
+}
+
+.message-favorite-snippet-head .mf-time {
+    color: #a89f91;
+    font-size: 11px;
+}
+
+.message-favorite-snippet-text,
+.message-favorite-note {
+    color: #3d332b;
+    line-height: 1.6;
+    font-size: 14px;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.message-favorite-snippet-text {
+    padding-left: 16px;
+    border-left: 2px solid rgba(163, 124, 88, 0.25);
+}
+
+.message-favorite-note {
+    background: rgba(0, 0, 0, 0.02);
+    border-left: 2px solid var(--mf-accent);
+    border-radius: 0 4px 4px 0;
+    color: var(--mf-ink-muted);
+    padding: 8px 12px;
+}
+
+.message-favorite-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.message-favorite-action-btn {
+    font-size: 12px;
+}
+
+.message-favorite-action-btn.is-danger:hover {
+    color: #d15c5c;
+}
+
+.message-favorite-image-stage {
+    margin-bottom: 8px;
+}
+
+.message-favorite-image-stage img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: rgba(215, 198, 176, 0.28);
+    cursor: zoom-in;
+}
+
+.message-favorite-image-stage.is-sticker {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.message-favorite-image-stage.is-sticker img {
+    width: 140px;
+    max-width: 42vw;
+    max-height: 140px;
+    object-fit: contain;
+    background: transparent;
+}
+
+.message-favorite-html-stage {
+    margin-bottom: 8px;
+    border: 1px solid var(--mf-rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    min-height: 160px;
+}
+
+.message-favorite-html-stage iframe {
+    display: block;
+    width: 100%;
+    min-height: 120px;
+    height: 100px;
+    border: 0;
+    background: #fff;
+}
+
+.message-favorites-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    color: var(--mf-ink-muted);
+}
+
+.message-favorites-pagination button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.message-favorite-html-modal {
+    width: min(960px, 92vw);
+    height: min(88vh, 820px);
+    margin: 4vh auto;
+    background: #fff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.24);
+    display: flex;
+    flex-direction: column;
+}
+
+.message-favorite-html-modal-head {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    background: rgba(248, 241, 231, 0.96);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.message-favorite-html-modal-close {
+    border: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.86);
+    color: #6c4a31;
+    font-size: 20px;
+}
+
+.message-favorite-html-modal iframe {
+    flex: 1;
+    width: 100%;
+    border: 0;
+    background: #fff;
+}
+
+.message-favorite-html-modal-code {
+    flex: 1;
+    margin: 0;
+    padding: 18px;
+    overflow: auto;
+    background: #fff;
+    color: #384257;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+}
+
+@media (max-width: 600px) {
+    .message-favorites-body {
+        padding: 16px 12px 28px !important;
+    }
+
+    .message-favorite-card-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+#message-favorites-date-filter,
+#message-favorites-contact-filter {
+    flex: 1 1 calc(50% - 4px);
+    width: auto;
+    min-width: 0;
+}
+
+#message-favorites-keyword-filter {
+    flex: 1 1 0%;
+    width: auto;
+    min-width: 0;
+}
+
+#message-favorites-sort {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    color: transparent;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23665c54" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg>');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f4efea;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 50%;
+}
+#message-favorites-sort option {
+    color: var(--mf-ink);
+}
+
+/* 新增 HTML 卡片顶部动作按钮和时间容器样式 */
+.message-favorite-time-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.mf-html-top-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.mf-top-action-btn {
+    background: #f4efea;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--mf-accent);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mf-top-action-btn:hover {
+    background: #fff;
+    border-color: var(--mf-accent);
+}
+
+/* 隐藏 HTML 小剧场类别下的多余信息和原底部按钮 */
+.message-favorite-card.category-html .message-favorite-snippet-head,
+.mf-full-modal-container.category-html .message-favorite-snippet-head {
+    display: none !important;
+}
+
+.message-favorite-card.category-html .message-favorite-snippet .message-favorite-actions,
+.mf-full-modal-container.category-html .message-favorite-snippet .message-favorite-actions {
+    display: none !important;
+}
+
+/* 隐藏完整版 HTML 弹窗中的头部信息（角色名、时间和外置按钮） */
+.mf-full-modal-container.category-html .mf-full-modal-header {
+    display: none !important;
+}
+
+/* 隐藏 HTML 小剧场 和 图片 卡片的“完整版”按钮 */
+.message-favorite-card.category-html [data-fav-ui-action="view-full"],
+.message-favorite-card.category-image [data-fav-ui-action="view-full"] {
+    display: none !important;
+}
